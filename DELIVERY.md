@@ -46,8 +46,12 @@ from receipt. All original export files are preserved byte for byte, including t
 | `rendered/kb/` and `rendered/index.html` | Static views of the original pages and a local index |
 | `scripts/`, `package.json`, `package-lock.json` | Reproducible build, audit and loopback-only preview |
 
-The public signature proposed in the new page is **`marcengineb · S01E03 · Codex`**.
-`RenderStamp` derives **`DR-75YS-36AD`** from it. The derived reference is checked in the final HTML.
+Human attribution remains **`marcengineb · S01E03 · Codex`**. The page's `signature` field contains the exact
+start proof issued by the course, as its latest validation message explicitly requires. This signed proof is
+intentionally public in that frontmatter and identifies the course participant pseudonymously; it was not part
+of the initial 52-file publication approval. It is not copied into issue bodies, comments, evidence or logs.
+`RenderStamp` derives **`DR-VTET-EBHA`** from the page's actual signature. The audit reads that frontmatter
+instead of hardcoding the human attribution as the signature, and checks the derived reference in the final HTML.
 The original KB owner fields and report text belong to the course's support-desk story, not the student.
 
 ## Reproduce

@@ -8,5 +8,6 @@ PASS every merge instant is at or after receipt, comparing the explicit UTC offs
 PASS all desk-note IDs link to counted reports; they are not an extra count.
 parser: 379
 hint: 33
-Signature: marcengineb · S01E03 · Codex
-Computed desk ref: DR-75YS-36AD
+Attribution: marcengineb · S01E03 · Codex
+Signature source: src/routes/kb/incidents/4471-analysis/+page.svx frontmatter (proof value omitted)
+Computed desk ref: DR-VTET-EBHA

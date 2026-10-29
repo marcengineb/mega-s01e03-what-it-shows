@@ -1,8 +1,9 @@
 {
   "snapshotExported": "2026-10-04",
   "reviewed": "2026-10-28",
-  "signature": "marcengineb · S01E03 · Codex",
-  "deskRef": "DR-75YS-36AD",
+  "author": "marcengineb · S01E03 · Codex",
+  "signatureSource": "src/routes/kb/incidents/4471-analysis/+page.svx",
+  "deskRef": "DR-VTET-EBHA",
   "sources": {
     "src/lib/data/reports-4471.json": "2bd8489da70d4dd5ead1b6c58bda0e7ec563bb7dcc19c1f0444a6e04de470b7c",
     "src/lib/data/desk-notes.json": "a5ffbc829486847f2e301697cc787781b9ff504a69a75233fc8dc6d3cc3ad053",

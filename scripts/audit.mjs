@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
+import { compile } from 'mdsvex';
 import { analyse } from '../src/lib/kb/analysis.ts';
 import { deskRef } from '../src/lib/kb/desk-ref.ts';
 
@@ -41,6 +42,12 @@ const output = 'evidence';
 fs.mkdirSync(output, { recursive: true });
 const { groups, ledger, ...summary } = audit;
 const signature = 'marcengineb · S01E03 · Codex';
+const signatureSource = 'src/routes/kb/incidents/4471-analysis/+page.svx';
+const page = await compile(fs.readFileSync(signatureSource, 'utf8'), {
+  filename: path.resolve(signatureSource), layout: { runbook: path.resolve('src/lib/layouts/runbook.svelte') },
+});
+const pageSignature = page?.data?.fm?.signature;
+assert.ok(typeof pageSignature === 'string' && pageSignature.length > 0, 'Page frontmatter must contain the course signature');
 const counts = groups.map(g => ({ cause: g.cause, count: g.reports.length, tenants: g.tenants,
   firstSeen: g.firstSeen, lastSeen: g.lastSeen, intakeTags: g.taggedAs, ids: g.reports.map(r => r.id) }));
 const sourcePaths = ['src/lib/data/reports-4471.json', 'src/lib/data/desk-notes.json',
@@ -48,7 +55,7 @@ const sourcePaths = ['src/lib/data/reports-4471.json', 'src/lib/data/desk-notes.
   'src/lib/kb/causes.ts', 'src/lib/kb/locales.ts'];
 const sources = Object.fromEntries(sourcePaths.map(p => [p, crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex')]));
 fs.writeFileSync(output + '/audit-summary.json', JSON.stringify({ snapshotExported: '2026-10-04', reviewed: '2026-10-28',
-  signature, deskRef: deskRef(signature), sources, ...summary, groups: counts }, null, 2) + '\n');
+  author: signature, signatureSource, deskRef: deskRef(pageSignature), sources, ...summary, groups: counts }, null, 2) + '\n');
 const fields = Object.keys(ledger[0]);
 const cell = x => '"' + String(x ?? '').replaceAll('"', '""') + '"';
 fs.writeFileSync(output + '/report-ledger.csv', [fields, ...ledger.map(r => fields.map(k => r[k]))].map(row => row.map(cell).join(',')).join('\n') + '\n');
@@ -62,7 +69,8 @@ fs.writeFileSync(output + '/verification.txt', [
   'PASS every merge instant is at or after receipt, comparing the explicit UTC offsets.',
   'PASS all desk-note IDs link to counted reports; they are not an extra count.',
   ...counts.map(g => `${g.cause}: ${g.count}`),
-  `Signature: ${signature}`, `Computed desk ref: ${deskRef(signature)}`,
+  `Attribution: ${signature}`, `Signature source: ${signatureSource} frontmatter (proof value omitted)`,
+  `Computed desk ref: ${deskRef(pageSignature)}`,
 ].join('\n') + '\n');
 
 // Draft bodies are generated snapshots, never submitted by this script.
