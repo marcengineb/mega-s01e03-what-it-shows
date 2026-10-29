@@ -2,7 +2,7 @@
 layout: runbook
 title: '#4471 reassessed · two causes behind one known ticket'
 owner: marcengineb
-status: proposed
+status: reviewed
 reviewed: '2026-10-28'
 signature: 'marcengineb · S01E03 · Codex'
 ---
@@ -16,9 +16,27 @@ signature: 'marcengineb · S01E03 · Codex'
 </script>
 
 The [original incident page](/kb/incidents/4471) calls this one known parser issue with one fix queued.
-Its own executable table separates the merged reports into two causes. Each needs its own engineering ticket.
-This is a proposed reassessment of the provided export, not a claim that the desk accepted a new triage policy
-or that a product fix has shipped.
+Its own executable table separates the merged reports into two causes. They are tracked separately in
+[parser issue #1](https://github.com/marcengineb/mega-s01e03-what-it-shows/issues/1) and
+[hint issue #2](https://github.com/marcengineb/mega-s01e03-what-it-shows/issues/2).
+This reassessment preserves the export's historical evidence and records the course's later engineering update.
+The proposed triage policy below has not been accepted by the desk.
+
+## Engineering update: closed does not always mean fixed
+
+Source: the [S01E03 course page](https://hq.mega.dev/challenges/what-it-shows), whose engineering update
+appeared after the course accepted both submitted tickets. It reports `#4471 · closed 05 oct`.
+The source gives no clock time or timezone for that closure.
+
+| Cause | Course outcome | Closure rationale for the corresponding GitHub issue |
+|---|---|---|
+| `parser` | **FIXED** — `fix(dates): parse dd/mm for eu locales` | #1: completed, based on the reported parser fix |
+| `hint` | **WON'T FIX** — `booking-v3 form retired` | #2: not planned, because the affected form was retired |
+
+The hint bug was not reported fixed. The course describes a product retirement, not a correction to its date hint.
+Both issues can therefore be closed for different reasons. Neither this update nor a closed status proves
+that every historical one-day-move report was reproduced or independently resolved.
+This is an outcome reported by the course; the export does not contain the production patch or regression results.
 
 ## Parser: day and month reversed
 
@@ -29,7 +47,7 @@ of `hint`: its tenant is `morrow.tax`, locale `fr-FR`, form `booking-v2`, and it
 
 Expected fix: parse according to the tenant's explicit date contract, or pass an unambiguous machine date.
 Verify both ambiguous and unambiguous dates across the affected channels. The export supplies classification
-logic, not production parser code; these are acceptance criteria for engineering.
+logic, not production parser code; these describe the expected behavior rather than a test result for the reported fix.
 
 ## Hint: the form tells people the wrong format
 
@@ -38,15 +56,16 @@ Following the hint therefore changes the date. This is a separate form contract 
 symptom resembles the parser issue. `R-41230` is a `copper.studio` form report and belongs here despite its
 intake tag of `parser`.
 
-Expected fix: make the displayed format and the form's interpretation agree with the tenant's locale.
-Verify the hint and the stored date together. Changing only the shared parser does not establish that this
-form problem is fixed.
+If the form were retained, the displayed format and its interpretation would need to agree with the tenant's locale.
+The actual course outcome is retirement of booking-v3, so this issue is not planned for correction.
+Changing only the shared parser would not establish that this form problem was fixed.
 
 ## Computed view of the merged reports
 
 Source: `reports-4471.json`, tenant files, `causes.ts`, and `desk-notes.json` from the course export.
 The following table is the original KB component, without a handwritten replacement count.
-Its “no ticket of its own” label describes the exported desk state. GitHub drafts below are proposed follow-up work.
+Its “no ticket of its own” label describes the exported desk state. The linked draft files preserve the submitted
+issue bodies as historical snapshots; the public issues above track their subsequent lifecycle.
 
 <CauseTable ticket={4471} />
 
@@ -71,13 +90,15 @@ cause after checking tenant locale, form version and channel. An unknown tenant 
 Matching a cause groups reports for an engineering issue; it does not prove two different report IDs are the same
 submission. Deduplicate the export by report ID first.
 
-Open the parser and hint tickets separately, keep the one-day-move notes visible, and verify any new live reports
-against the tenant directory before merging them. Rebuild this page when the data changes: its counts are computed,
-while the issue bodies are dated snapshots and must be regenerated and reviewed.
+Track the parser and hint separately and close them with the distinct reasons in the engineering update.
+Keep the one-day-move notes visible, and verify any new live reports against the tenant directory before merging them.
+Rebuild this page when the data changes: its counts are computed, while the issue bodies are dated snapshots
+and any revision must be reviewed.
 
 <Callout kind="warn">
 The support desk can keep receiving reports after this export. Do not treat a known status, an intake tag,
-or a historical merge as proof that every report has the same cause or that a queued fix is complete.
+or a historical merge as proof that every report has the same cause. A closed issue may mean fixed or not planned;
+always preserve its closure reason.
 </Callout>
 
 ## Evidence and reproducibility

@@ -1,7 +1,19 @@
 # S01E03 · what it shows
 
-Proposed public repository: `marcengineb/mega-s01e03-what-it-shows`.
-Local preparation only. No repository or GitHub issue has been created.
+Public repository: `marcengineb/mega-s01e03-what-it-shows`.
+The reviewed 52-file snapshot and both issues have been published. The course accepted the two tickets
+at step one; final Challenge validation is still pending.
+
+## Engineering outcome reported by the course
+
+After accepting the tickets, the course page revealed `#4471 · closed 05 oct`:
+
+- Parser: **FIXED**, `fix(dates): parse dd/mm for eu locales` — close issue #1 as completed.
+- Hint: **WON'T FIX**, `booking-v3 form retired` — close issue #2 as not planned.
+
+Source: <https://hq.mega.dev/challenges/what-it-shows>. No closure clock time or timezone is supplied.
+These are reported outcomes, not production patches or regression results supplied in the export.
+The new KB page records that distinction. The issue draft files preserve the original submitted snapshots.
 
 ## Result and limits
 
@@ -12,7 +24,8 @@ Five desk-noted one-day-move reports are included once in parser, with an explic
 They are rule-assigned reports, not five independently confirmed parser reproductions.
 
 The export is dated 4 October 2026; this analysis was reviewed on 28 October 2026 (the student's session date).
-It does not fetch or assert the state of the current support queue. Source timestamp offsets are preserved.
+Its counts describe the historical export; the later course engineering outcome is separately attributed above.
+Source timestamp offsets are preserved.
 The biggest merge day, 2 July, has 184 merges and only 2 newly received reports. Merging is a different event
 from receipt. All original export files are preserved byte for byte, including the accepted 2024 decision.
 
@@ -20,7 +33,7 @@ from receipt. All original export files are preserved byte for byte, including t
 
 | Path | Purpose |
 |---|---|
-| `src/routes/kb/incidents/4471-analysis/+page.svx` | New signed KB reassessment; status proposed |
+| `src/routes/kb/incidents/4471-analysis/+page.svx` | Signed KB reassessment and separately sourced engineering outcome; status reviewed |
 | `src/lib/kb/analysis.ts` | Count and evidence computations |
 | `src/lib/kb/AnalysisDetails.svelte` | Computed checks, uncertainty notes and timeline context |
 | `tickets/parser.md` | Full draft GitHub issue: 379 reports |
