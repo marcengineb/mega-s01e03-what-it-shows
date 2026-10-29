@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "mdsvex": "^0.12.8",
+    "svelte": "^5.57.3"
+  },
+  "name": "mega-s01e03-what-it-shows",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "scripts": {
+    "audit": "node scripts/audit.mjs",
+    "build": "npm run audit && node scripts/build.mjs",
+    "preview": "node scripts/serve.mjs"
+  }
+}

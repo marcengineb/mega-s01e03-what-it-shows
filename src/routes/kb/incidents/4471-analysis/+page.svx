@@ -1,0 +1,90 @@
+---
+layout: runbook
+title: '#4471 reassessed · two causes behind one known ticket'
+owner: marcengineb
+status: proposed
+reviewed: '2026-10-28'
+signature: 'marcengineb · S01E03 · Codex'
+---
+
+<script>
+  import CauseTable from '#lib/kb/CauseTable.svelte';
+  import QueueTimeline from '#lib/kb/QueueTimeline.svelte';
+  import AnalysisDetails from '#lib/kb/AnalysisDetails.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+</script>
+
+The [original incident page](/kb/incidents/4471) calls this one known parser issue with one fix queued.
+Its own executable table separates the merged reports into two causes. Each needs its own engineering ticket.
+This is a proposed reassessment of the provided export, not a claim that the desk accepted a new triage policy
+or that a product fix has shipped.
+
+## Parser: day and month reversed
+
+The shared parser reads dates month first even when the tenant writes day first. In the export's rule,
+this covers app and email reports, plus form reports that do not use the misleading booking-v3 hint.
+For example, `R-41200` describes 7 April becoming 4 July. `R-41205` belongs here despite its intake tag
+of `hint`: its tenant is `morrow.tax`, locale `fr-FR`, form `booking-v2`, and its channel is `app`.
+
+Expected fix: parse according to the tenant's explicit date contract, or pass an unambiguous machine date.
+Verify both ambiguous and unambiguous dates across the affected channels. The export supplies classification
+logic, not production parser code; these are acceptance criteria for engineering.
+
+## Hint: the form tells people the wrong format
+
+For a day-first tenant on `booking-v3`, the form prints `MM/DD/YYYY`, but reads the input in the tenant's order.
+Following the hint therefore changes the date. This is a separate form contract problem, even if the visible
+symptom resembles the parser issue. `R-41230` is a `copper.studio` form report and belongs here despite its
+intake tag of `parser`.
+
+Expected fix: make the displayed format and the form's interpretation agree with the tenant's locale.
+Verify the hint and the stored date together. Changing only the shared parser does not establish that this
+form problem is fixed.
+
+## Computed view of the merged reports
+
+Source: `reports-4471.json`, tenant files, `causes.ts`, and `desk-notes.json` from the course export.
+The following table is the original KB component, without a handwritten replacement count.
+Its “no ticket of its own” label describes the exported desk state. GitHub drafts below are proposed follow-up work.
+
+<CauseTable ticket={4471} />
+
+<AnalysisDetails />
+
+## Queue history
+
+Source: the original `QueueTimeline` component over unique report IDs. Orange shows arrivals; green shows
+merges into #4471. A batch of merges can occur long after the reports arrived.
+
+<QueueTimeline ticket={4471} />
+
+## Proposed triage rule and next actions
+
+The [accepted 2024 decision](/kb/decisions/0001-dedupe-by-subject) and the
+[triage page](/kb/triage/dedupe) recommend merging by subject. Their text is contradicted by the executable
+examples: identical subjects can have different causes, and different subjects can share one cause.
+Their review dates are old; `accepted` is not evidence that the recommendation still matches the system.
+
+Keep that accepted decision intact. For the desk's review, propose a new decision record that groups by verified
+cause after checking tenant locale, form version and channel. An unknown tenant remains unplaced until investigated.
+Matching a cause groups reports for an engineering issue; it does not prove two different report IDs are the same
+submission. Deduplicate the export by report ID first.
+
+Open the parser and hint tickets separately, keep the one-day-move notes visible, and verify any new live reports
+against the tenant directory before merging them. Rebuild this page when the data changes: its counts are computed,
+while the issue bodies are dated snapshots and must be regenerated and reviewed.
+
+<Callout kind="warn">
+The support desk can keep receiving reports after this export. Do not treat a known status, an intake tag,
+or a historical merge as proof that every report has the same cause or that a queued fix is complete.
+</Callout>
+
+## Evidence and reproducibility
+
+Run `npm ci --ignore-scripts`, then `npm run audit` and `npm run build` from this exercise folder.
+The audit checks duplicate content, report coverage and an independent classification against the supplied rule.
+The build runs the actual mdsvex and Svelte components and saves the page the desk will see, including this signature.
+Original source files are preserved; the derived ledger, issue drafts and render are identified in `DELIVERY.md`.
+
+<RenderStamp {signature} />

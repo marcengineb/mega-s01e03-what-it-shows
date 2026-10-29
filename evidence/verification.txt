@@ -1,0 +1,12 @@
+Source: exported report rows, tenant directory, desk notes and original causes.ts.
+PASS raw 427 - duplicate rows 15 = unique 412.
+PASS duplicate content checked field by field; no conflicting duplicate IDs.
+PASS 412 unique reports belong to #4471.
+PASS cause groups disjoint and complete; no unplaced reports.
+PASS independently classified every ID using tenant date order / channel / form.
+PASS every merge instant is at or after receipt, comparing the explicit UTC offsets.
+PASS all desk-note IDs link to counted reports; they are not an extra count.
+parser: 379
+hint: 33
+Signature: marcengineb · S01E03 · Codex
+Computed desk ref: DR-75YS-36AD

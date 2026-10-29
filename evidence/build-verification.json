@@ -1,0 +1,13 @@
+{
+  "pages": 5,
+  "compiledFiles": 32,
+  "warnings": [],
+  "checks": [
+    "real mdsvex + Svelte server compilation",
+    "rendered signature matches derived desk ref",
+    "cause counts visible",
+    "uncertainty IDs visible",
+    "source offset timestamp visible",
+    "timeline SVG present"
+  ]
+}
